@@ -2,7 +2,7 @@
 
 #include "de10_baseline.h"
 
-#define bit_set (data, n) \\
+#define bit_set(data, n) \\
   ((data) |= (1UL << (n)))
   
 int main(){
@@ -13,7 +13,7 @@ int main(){
     for(uint8_t i = 0; i < 10; i++){
       if(read & 0x0001)               // check status of each switch state
         bit_set(graph, i);            // set next l.e.d. if switch is on
-      read = read >> 0x0001;          // dump this switch & check next one
+      read = read >> 1;               // dump this switch & check next one
     }
     led.write(graph);                 // write the bar graph to board i/o
   }

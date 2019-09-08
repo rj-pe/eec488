@@ -5,7 +5,7 @@
 
 #include "de10_baseline.h"
 
-#define bit_set (data, n) \\
+#define bit_set(data, n) \\
   ((data) |= (1UL << (n)))
 #define bit_clear(data, n) \\
   ((data) &= ~(1UL << (n)))
