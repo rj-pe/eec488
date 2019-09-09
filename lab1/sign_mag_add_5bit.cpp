@@ -5,14 +5,11 @@
 
 #include "de10_baseline.h"
 
-#define bit_set(data, n) \\
-  ((data) |= (1UL << (n)))
-#define bit_clear(data, n) \\
-  ((data) &= ~(1UL << (n)))
-#define bit_write(data, n, bitvalue) \\
-  (bitvalue ? bit_set(data, n) : bit_clear(data, n))
-#define set_overflow(data) \\
-  ((data & ~0x000F) ? bit_set(data, 9) : bit_clear(data, 9))
+#define bit_set(data, n)((data) |= (1UL << (n)))
+#define bit_clear(data, n)((data) &= ~(1UL << (n)))
+#define bit_write(data, n, bitvalue)(bitvalue ? bit_set(data, n) : bit_clear(data, n))
+#define set_overflow(data)((data & (~0x000F)) ? bit_set(data, 9) : bit_clear(data, 9))
+
 
 int main(){
   while(1){
@@ -26,19 +23,22 @@ int main(){
     a = (io >> 5) & 0x000F;                    // store magnitude of A
 
     io = 0x0000;                               // prepare for storing results
-    if((signs & 0x02) ^ (signs & 0x01))        // the signs are different
-      if(a > b)                                // A is larger
+    if(((signs & 0x02) >> 1) ^ (signs & 0x01))        // the signs are different
+      if(a > b) {                               // A is larger
         io = a - b;                            // compute the difference
         set_overflow(io);                      // set the overflow bit
         bit_write(io, 4, (signs & 0x02));      // set the sign bit to A sign
-      else                                     // B is larger
+      }
+      else {                                    // B is larger
         io = b - a;                            // compute the difference
         set_overflow(io);                      // set the overflow bit
         bit_write(io, 4, (signs & 0x01));      // set the sign bit to B sign
-    else                                       // the signs are the same
-      input = a + b;                           // compute the sum
+      }
+    else{                                       // the signs are the same
+      io = a + b;                              // compute the sum
       set_overflow(io);                        // set the overflow bit
-      bit_write(io, 4, signs);                 // set the sign bit
+      bit_write(io, 4, (signs & 0x01));                 // set the sign bit
+    }
     led.write(io);                             // write results to board i/o
   }
 }
