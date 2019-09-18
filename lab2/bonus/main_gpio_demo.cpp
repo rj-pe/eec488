@@ -22,7 +22,6 @@ int main() {
 	int m = 9;
 	int nLeftDirection = 1;
 	int mLeftDirection = 0;
-	int ledArray = 0x201;
 	int ts0;
 	int ts1;
 	int ledTime;
@@ -31,36 +30,34 @@ int main() {
 		switches = sw.read();
 		ledTime = (switches >> 4) * 10;
 		if (!(switches & 0x0002)){
-			if(n+1 == m){
-				nLeftDirection = !nLeftDirection;
-				//n--;
-			}
 			if((elapsed_ms(ts0) > (ledTime)) && nLeftDirection) {
-			ts0 = now_ms();
-			led.write((0x001 << n)|(0x001 << m));
-			n++;
+				ts0 = now_ms();
+				led.write((0x001 << n)|(0x001 << m));
+				n++;
+				if(n+1 == m){
+					nLeftDirection = !nLeftDirection;
+				}
 			}
 			else if((elapsed_ms(ts0) > (ledTime)) && !nLeftDirection) {
-			ts0 = now_ms();
-			led.write((0x001 << n)|(0x001 << m));
-			n--;
-			if(n < 0) {
-				nLeftDirection = 1;
-				n = 1;
-			}
+				ts0 = now_ms();
+				led.write((0x001 << n)|(0x001 << m));
+				n--;
+				if(n < 0) {
+					nLeftDirection = 1;
+					n = 1;
+				}
 			}
 		}
 		if (!(switches & 0x000c)){
-			if(m-1 == n){
-				mLeftDirection = !mLeftDirection;
-				//m++;
-			}
 			if((elapsed_ms(ts1) > (ledTime)) && mLeftDirection) {
 				ts1 = now_ms();
 				led.write((0x001 << n)|(0x001 << m));
 				m++;
 			}
 			else if((elapsed_ms(ts1) > (ledTime)) && !mLeftDirection) {
+				if(m-1 == n){
+					mLeftDirection = !mLeftDirection;
+				}
 				ts1 = now_ms();
 				led.write((0x001 << n)|(0x001 << m));
 				m--;
@@ -71,7 +68,6 @@ int main() {
 			}
 		}
 		if (switches & 0x0001){
-			ledArray = ledArray & 0xfff;
 			n = 0;
 			nLeftDirection = 1;
 			led.write((0x001 << n)|(0x001 << m));
