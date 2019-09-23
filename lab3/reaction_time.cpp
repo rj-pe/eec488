@@ -43,6 +43,8 @@ void wait(uint32_t* state_pntr){
  * @param &state The address of the current state variable.
  */
 void cheat(uint32_t* state_pntr){
+  sseg.write_8ptn(CHT_PTN);
+  led.write(1, 0);
   *state_pntr = 4;
 }
 
