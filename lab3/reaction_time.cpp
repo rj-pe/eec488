@@ -33,7 +33,7 @@ void ready(uint32_t* state_pntr){
  */
 void wait(uint32_t* state_pntr){
   sseg.write_8ptn(ZERO_PTN);
-  // TODO figure out how to set decimal point
+  sseg.set_dp(0xEF);
   led.write(1, 0);
   *state_pntr = 2;
 }
