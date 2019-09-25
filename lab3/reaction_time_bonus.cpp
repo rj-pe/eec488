@@ -43,8 +43,22 @@ int record[3];                        // Holds the three fastest reaction times.
 */
 void init(){
   sseg.set_dp(0x00);
-  led.write(0x001);                                 // Turn on rightmost l.e.d.
-  sseg.write_8ptn((uint8_t*)HI_PTN);          // Writes "HI" to the hex display.
+  led.write(0x001);          // Turn on rightmost l.e.d.
+  uint16_t switches = sw.read();
+  if(switches & 0x200)
+  {
+    sseg.write_8ptn((uint8_t*)CLR_PTN);         // Writes "" to the hex display.
+    int rec = ((switches & 0x0180) >> 7);   // Record which time the user wants.
+    int pos = rec + 1;
+    int num = sseg.h2s(pos);
+    sseg.write_1ptn(num, 5);     // Write the rank of the time requested to hex.
+    sseg.set_dp(0x08);                             // Turn on the decimal point.
+    sseg.i2sseg((int)record[rec] , 10, 4, 0, 1, 0); // Write the time requested.
+  }
+  else
+  {
+    sseg.write_8ptn((uint8_t*)HI_PTN);        // Writes "HI" to the hex display.
+  }
 }
 /**
  * Sets the board to ready state.
@@ -98,6 +112,26 @@ void turnOnCount() {
     ts0 =  elapsed_ms(ts0);
     rand = 0;                                      // Reset the random variable.
     currentState = 5;                                  // Go to the React state.
+    int temp = 0;                  // Storage for reordering the reaction times.
+    // 
+    for(int i = 0; i < 3; i++) {
+      if(record[i] == 0 && ts0 > 0)
+      {
+        record[i] = ts0;
+        break;
+      }
+      else if(ts0 < record[i])
+      {
+        temp = record[i];
+        record[i] = ts0;
+        for(int j = 0; j < 2; j++)
+        {
+          record[i+1] = temp;
+        }
+        break;
+      }
+    }
+  }
   else if (elapsed_ms(ts0) > 999)           // Did elapsed time exceed 0.999 ms? 
   {
     rand = 0;                                      // Reset the random variable. 
@@ -134,8 +168,8 @@ int main(){
 
     switch(currentState)
     {
-      case 0:                                               // Initialize state.
-        init();                      // Call the init function to set the board.
+      case 0:
+        init();
         break;
       case 1:                                                    // Ready state.
         ready();                    // Call the ready function to set the board.
