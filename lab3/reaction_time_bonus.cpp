@@ -32,7 +32,21 @@ void init(){
 	//turn on rightmost led
 	led.write(0x001);
 	//writes "hi" to the seven segment display
+	uint16_t switches = sw.read();
+	if(switches & 0x200)
+	{
+		sseg.write_8ptn((uint8_t*)CLR_PTN);
+		int rec = ((switches & 0x0180) >> 7);
+		int pos = rec + 1;
+		int num = sseg.h2s(pos);
+		sseg.write_1ptn(num, 5);
+		sseg.set_dp(0x08);
+		sseg.i2sseg((int)record[rec] , 10, 4, 0, 1, 0);
+	}
+	else
+	{
 		sseg.write_8ptn((uint8_t*)HI_PTN);
+	}
 }
 
 void ready(/*int* state_pntr*/){
@@ -75,8 +89,26 @@ void turnOnCount() {
         ts0 =  elapsed_ms(ts0);
         rand = 0;
         currentState = 5;
+        int temp = 0;
 
+        for(int i = 0; i < 3; i++) {
+        	if(record[i] == 0 && ts0 > 0)
+        	{
+        		record[i] = ts0;
+        		break;
+        	}
+        	else if(ts0 < record[i])
+        	{
+        		temp = record[i];
+        		record[i] = ts0;
+        		for(int j = 0; j < 2; j++)
+        		{
+        			record[i+1] = temp;
+        		}
+        		break;
+        	}
         }
+    }
 
     // if elapsed time > 0.999 ms go to slow state
     else if (elapsed_ms(ts0) > 999)
