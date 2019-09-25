@@ -26,6 +26,9 @@ int currentState = 0;
 unsigned long rand = 0;
 int ts0;
 int record[3];
+////////////////////////
+/////// states /////////
+////////////////////////
 
 void init(){
 	sseg.set_dp(0x00);
@@ -48,14 +51,24 @@ void init(){
 		sseg.write_8ptn((uint8_t*)HI_PTN);
 	}
 }
-
+/**
+ * Sets the board to ready state.
+ * Seven segment display is blank.
+ * Led0 is off.
+ * @param &state The address of the current state variable.
+ */
 void ready(/*int* state_pntr*/){
   sseg.write_8ptn((uint8_t*)CLR_PTN);
   led.write(0x001);
   //update global variable
   //currentState = 1;
 }
-
+/**
+ * Sets the board to wait state.
+ * Seven segment displays zeros.
+ * Led0 is off.
+ * @param &state The address of the current state variable.
+ */
 void wait(/*int* state_pntr*/){
   sseg.write_8ptn((uint8_t*)ZERO_PTN);
   sseg.set_dp(0x20);
@@ -63,7 +76,10 @@ void wait(/*int* state_pntr*/){
   //*state_pntr = 2;
   //currentState = 2;
 }
-
+/**
+ * Sets the board to cheat state.
+ * @param &state The address of the current state variable.
+ */
 void cheat(/*int* state_pntr*/){
   sseg.set_dp(0x00);
   sseg.write_8ptn((uint8_t*)CHT_PTN);
@@ -130,7 +146,9 @@ void turnOnCount() {
         currentState = 6;
     }
 }
-
+///////////////////////
+/////// control ///////
+///////////////////////
 int main(){
 	while(1)
 	{
