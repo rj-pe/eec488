@@ -1,9 +1,12 @@
 /**
-* This application creates reaction timer with memory.
-* The user can record and display her three fastest reaction times.
+* This application creates reaction timer.
 * After a random time interval the user sees an l.e.d. flash on.
 * The reaction time (in milliseconds) is the time elapsed from when the
 * l.e.d. flashes on and when the user presses the stop button.
+* After the user reacts, her reaction time is displayed.
+* If the user does not react within one second "SL" is displayed.
+* If the user cheats by pressing the button before the l.e.d. turns on
+* "CH" is displayed.
 */
 
 #include "de10_baseline.h"
@@ -38,8 +41,6 @@ int record[3];                        // Holds the three fastest reaction times.
 * Sets the board to the initialize state.
 * Clears the hex display and writes "HI".
 * l.e.d. 0 is on.
-* Checks whether the user wants to see the fastest reaction times.
-* Displays the fastest reaction times according to user selection.
 */
 void init(){
   sseg.set_dp(0x00);
@@ -89,7 +90,6 @@ void slow()
 * Displays the elapsed time since the l.e.d. light up.
 * Checks whether the user reacted. 
 * Routes to corresponding state based on user's reaction.
-* Tracks the three fastest reaction times.
 */
 void turnOnCount() {
   long ms = now_ms() - ts0;
