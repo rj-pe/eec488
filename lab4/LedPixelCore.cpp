@@ -50,11 +50,44 @@ void LedPixelCore::set_color(uint8_t r, uint8_t g, uint8_t b)
 
 }
 
+void LedPixelCore::set_color(uint8_t clr_level, uint8_t channel)
+{
+	//active low
+	if(active == 0)
+	{
+		switch(channel){
+			case 'r_pwm':
+			  r_clr = (255 - (clr_level*brightness));
+			  break;
+			case 'g_pwm':
+			  g_clr = (255 - (clr_level*brightness));
+			  break;
+			case 'b_pwm':
+			  b_clr = (255 - (clr_level*brightness));
+			  break;
+		}
+	}
+	//active high
+	else
+	{
+    switch(channel){
+      case 'r_pwm':
+        r_clr = clr_level*brightness;
+        break;
+      case 'g_pwm':
+        g_clr = clr_level*brightness;
+        break;
+      case 'b_pwm':
+        b_clr = clr_level*brightness;
+        break;
+    }
+	}
+	io_write(base_addr, DUTY_REG_BASE + r_pwm, (uint16_t)(r_clr * 4));
+	io_write(base_addr, DUTY_REG_BASE + g_pwm, (uint16_t)(g_clr * 4));
+	io_write(base_addr, DUTY_REG_BASE + b_pwm, (uint16_t)(b_clr * 4));
+}
+
 void LedPixelCore::set_brightness(float br)
 {
 	this->brightness = br;
 }
-
-
-
-

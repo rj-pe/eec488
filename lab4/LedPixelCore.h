@@ -47,6 +47,12 @@ public:
    */   
    void set_color(uint8_t r, uint8_t g, uint8_t b);
    /**
+   * Set the color of only one channel.
+   * @param clr_level 8-bit unsigned number indicating the intensity of color
+   * @param channel PWM channel controlling the color's LED.
+   */
+   void LedPixelCore::set_color(uint8_t clr_level, uint8_t channel)
+   /**
    * Set brightness of the tricolor LED pixel between 0.0 & 1.0
    * @param br brightness of the pixel (0.0-1.0) 1.0 is the brightest.
    */   
