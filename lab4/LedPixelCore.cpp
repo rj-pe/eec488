@@ -65,7 +65,7 @@ void LedPixelCore::set_color(uint8_t clr_level, uint8_t channel)
         case 7:
           b_clr = (255 - (clr_level*brightness));
           break;
-        }
+      }
     }
     //active high
     else
@@ -80,7 +80,7 @@ void LedPixelCore::set_color(uint8_t clr_level, uint8_t channel)
         case 7:
           b_clr = clr_level*brightness;
           break;
-    }
+      }
     }
     io_write(base_addr, DUTY_REG_BASE + r_pwm, (uint16_t)(r_clr * 4));
     io_write(base_addr, DUTY_REG_BASE + g_pwm, (uint16_t)(g_clr * 4));
