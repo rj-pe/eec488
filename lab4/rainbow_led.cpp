@@ -1,6 +1,6 @@
 /**
 * file: rainbow_led.cpp
-* Generates a rainbow spectrum on an led 
+* Generates a rainbow spectrum on an led
 * connected to the DE-10 board's Arduino pins.
 */
 
@@ -48,11 +48,10 @@ int main(){
   pixel.set_active_level(0);
   int wrap;       ///< user requested wrapping time
   int interval;   ///< transformed wrapping time
-  int sleep_time; ///< pause for ocular adjustment 
+  int sleep_time; ///< pause for ocular adjustment
   float bright;   ///< led's brightness
-
+  int sw_state;   ///< the current state of the switches
   while(1){
-    int sw_state = sw.read();
     switch_change(&sw_state, &wrap, &bright);
     set_pixel(&wrap, &bright, &interval, &sleep_time, &pixel);
     // always start at red
