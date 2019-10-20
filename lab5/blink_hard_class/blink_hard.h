@@ -29,7 +29,7 @@ public:
    enum {
       PRD_MASK = 0x00003ff,  /**< 10-bit period field */
       GO_MASK = 0x00010000,  /**< go bit */
-	  CTRL_MASK = 0x00008000
+	  CTRL_MASK = 0x0000c000 /**< control field*/
    };
    BlinkHard(uint32_t core_base_addr);
    ~BlinkHard();                  // not used
@@ -44,14 +44,12 @@ public:
    /**
     * stop blinking
     * @param n position of led (0 is the rightmost)
-    *
     */
    void turn_off(int n);
 
    /**
     * enable blinking
     * @param n position of led (0 is the rightmost)
-    *
     */
    void turn_on(int n);
    void blink(int n);
