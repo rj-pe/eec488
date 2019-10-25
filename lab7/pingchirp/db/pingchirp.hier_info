@@ -1,0 +1,68 @@
+|fsdm_top
+clk => fsmd:fsmd_unit.clk
+sw[0] => fsmd:fsmd_unit.trig
+led[0] <= fsmd:fsmd_unit.gate
+
+
+|fsdm_top|fsmd:fsmd_unit
+clk => count_reg[0].CLK
+clk => count_reg[1].CLK
+clk => count_reg[2].CLK
+clk => count_reg[3].CLK
+clk => count_reg[4].CLK
+clk => count_reg[5].CLK
+clk => count_reg[6].CLK
+clk => count_reg[7].CLK
+clk => count_reg[8].CLK
+clk => count_reg[9].CLK
+clk => count_reg[10].CLK
+clk => count_reg[11].CLK
+clk => count_reg[12].CLK
+clk => count_reg[13].CLK
+clk => count_reg[14].CLK
+clk => count_reg[15].CLK
+clk => count_reg[16].CLK
+clk => count_reg[17].CLK
+clk => count_reg[18].CLK
+clk => count_reg[19].CLK
+clk => count_reg[20].CLK
+clk => count_reg[21].CLK
+clk => count_reg[22].CLK
+clk => count_reg[23].CLK
+clk => count_reg[24].CLK
+clk => count_reg[25].CLK
+clk => count_reg[26].CLK
+clk => count_reg[27].CLK
+clk => state_reg.CLK
+trig => state_next.DATAB
+dvsr[0] => Equal0.IN27
+dvsr[1] => Equal0.IN26
+dvsr[2] => Equal0.IN25
+dvsr[3] => Equal0.IN24
+dvsr[4] => Equal0.IN23
+dvsr[5] => Equal0.IN22
+dvsr[6] => Equal0.IN21
+dvsr[7] => Equal0.IN20
+dvsr[8] => Equal0.IN19
+dvsr[9] => Equal0.IN18
+dvsr[10] => Equal0.IN17
+dvsr[11] => Equal0.IN16
+dvsr[12] => Equal0.IN15
+dvsr[13] => Equal0.IN14
+dvsr[14] => Equal0.IN13
+dvsr[15] => Equal0.IN12
+dvsr[16] => Equal0.IN11
+dvsr[17] => Equal0.IN10
+dvsr[18] => Equal0.IN9
+dvsr[19] => Equal0.IN8
+dvsr[20] => Equal0.IN7
+dvsr[21] => Equal0.IN6
+dvsr[22] => Equal0.IN5
+dvsr[23] => Equal0.IN4
+dvsr[24] => Equal0.IN3
+dvsr[25] => Equal0.IN2
+dvsr[26] => Equal0.IN1
+dvsr[27] => Equal0.IN0
+gate <= state_reg.DB_MAX_OUTPUT_PORT_TYPE
+
+
