@@ -34,6 +34,10 @@ begin
     );
   -- counter unit for chirp 
   counter_unit: entity work.counter
+    --generic map( -- for testing with audio frequencies
+    --  start_freq => to_unsigned(25770, 30),
+    --  stop_freq  => to_unsigned(17180, 30)
+    --);
     port map(
       clk =>     clk,
       count_o => count_s
@@ -49,12 +53,6 @@ begin
       env =>       (others => '0'),
       pcm_out =>   open, 
       pulse_out => pulse_s
-      --fccw => std_logic_vector(to_unsigned(M, 30)), -- gate input
-      --focw => std_logic_vector(to_unsigned(count_s, 30)), -- counter input
-      --pha => (others => '0'),
-      --env => std_logic_vector(to_unsigned(1, 30)), -- must be non-zero
-      --pcm_out => pulse_s, -- output is a sine wave with varying freq
-      --pulse_out => open
     );
 
 end arch;
