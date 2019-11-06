@@ -41,11 +41,10 @@ begin
                  to_unsigned(128, 9) when others;  
 
    -- compute start and stop points for colors
-   --y_start <= (VD - sq_side) / 2;
    y_start <= (VD / 2) - sq_side + sq_side/ 2;
    y_stop  <= y_start + sq_side;
 
-   x_start <= (HD /2)- sq_side + sq_side/2;
+   x_start <= (HD / 2) - sq_side + sq_side/2;
    x_stop <= x_start + sq_side ;
 
    -- instantiate bar generator
@@ -59,11 +58,8 @@ begin
          x_start => x_start, 
          x_stop  => x_stop,
          colors => sw(4 downto 2)
-         --r_color => sw(4),
-         --g_color => sw(3), 
-         --b_color => sw(2)
       );
-   -- instantiate color-to-gray conversion circuit
+      -- instantiate color-to-gray conversion circuit
    c2g_unit : entity work.rgb2gray
       port map(
          color_rgb => color_rgb,
